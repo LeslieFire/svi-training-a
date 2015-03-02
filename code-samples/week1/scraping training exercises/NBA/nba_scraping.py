@@ -1,5 +1,5 @@
 '''
-Written by Antonio Carlos L. Ortiz 02/28/2015
+Written by Antonio Carlos L. Ortiz 02/27/2015
 Input: website - http://espn.go.com/nba/teams
 Output: scraped individual statistics of players of the specified NBA team.
 '''
