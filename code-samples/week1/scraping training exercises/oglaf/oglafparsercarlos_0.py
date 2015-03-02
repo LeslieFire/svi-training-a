@@ -1,3 +1,9 @@
+'''
+Written by Antonio Carlos L. Ortiz 02/25/2015
+Input: website - 'http://oglaf.com/archive/'
+Output: scraped images of the comics with the title and alt description appendend at the top of the photo.
+'''
+
 import requests
 from bs4 import BeautifulSoup
 import os

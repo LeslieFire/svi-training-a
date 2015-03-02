@@ -1,3 +1,9 @@
+'''
+Written by Antonio Carlos L. Ortiz 02/28/2015
+Input: username and password to gmail account.
+Output: details of emails that you want parsed.
+'''
+
 import sys
 import imaplib
 import email

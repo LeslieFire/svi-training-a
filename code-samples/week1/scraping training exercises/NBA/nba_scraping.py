@@ -1,3 +1,8 @@
+'''
+Written by Antonio Carlos L. Ortiz 02/28/2015
+Input: website - http://espn.go.com/nba/teams
+Output: scraped individual statistics of players of the specified NBA team.
+'''
 import urllib2 as request
 from bs4 import BeautifulSoup
 import re
