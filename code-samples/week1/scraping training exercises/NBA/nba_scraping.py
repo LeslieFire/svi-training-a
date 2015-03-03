@@ -13,12 +13,11 @@ import subprocess
 base_url = 'http://espn.go.com'
 
 teams_url = 'http://espn.go.com/nba/teams'
-html_teams = request.urlopen(teams_url)
-soup_teams = BeautifulSoup(html_teams)
+soup_teams = BeautifulSoup(request.urlopen(teams_url)) #the html_teams var is never used again, so makes sense to combine here
 
 urls = soup_teams.find_all(href = re.compile('/nba/teams/stats'))
-team_urls = [base_url+url['href'] for url in urls]
-
+team_urls = [base_url+url['href'] for url in urls] #good use of list comprehension
+ 
 team_name_dict = {'bos':'Boston Celtics',
                   'bkn':'Brooklyn Nets',
                   'nyk':'New York Knicks',
@@ -51,11 +50,12 @@ team_name_dict = {'bos':'Boston Celtics',
                   'uth':'Utah Jazz'
                   }
 
+# are you only grabbing stats for cle?  
 url_team = 'http://espn.go.com/nba/teams/stats?team=cle'
-team_code = url_team[-3:]
+team_code = url_team[-3:] #nice use of slicing
 
-html_team = request.urlopen(url_team)
-soup_team = BeautifulSoup(html_team)
+soup_team = BeautifulSoup(request.urlopen(url_team)) #again, html_team is never used again, so can combine here
+
 
 #Grab all HTML tr elements with class containing the word 'player'
 #returns objects
@@ -79,23 +79,24 @@ index = 0
 increment = 0
 for id in player_ids:
 	players.insert(index + increment, id)
-	index = index + 15
-	increment = increment + 1
+	index += 15 #+= same as var = var + n
+	increment += 1
 
 index = 2
 increment = 0
 for id in player_ids:
 	players.insert(index + increment, team_name_dict[team_code])
-	index = index + 16 # since we added player ID, there is now a total of 16 columns, instead of 15.
-	increment = increment + 1
+	index +=  16 # since we added player ID, there is now a total of 16 columns, instead of 15.
+	increment += 1
 
+
+# good use of generator function
 def chunks(l,n):
 	""" Yield successive n-sized chunks from l.
 	"""
 	for i in range(0, len(l), n):
 		yield l[i:i+n]
 
-from pprint import pprint
 
 for row in chunks(players, 17):
 	pprint(row)

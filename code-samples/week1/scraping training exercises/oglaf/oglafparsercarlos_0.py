@@ -88,7 +88,7 @@ def extract_archive(link):
 
 			#to create a new address using 'address' that we got from get
 			joiner = ""			
-			new_addr = joiner.join(('http://oglaf.com/',address[1:]))
+			new_addr = joiner.join(('http://oglaf.com/',address[1:])) #avoid hardcoding
 			print new_addr
 
 			#requests with 5 attempts until get_page() returns false
@@ -127,44 +127,51 @@ def extract_archive(link):
 
 				#this is for the comic segments with multiple pages.
 				if comic:
+					# this should be a new function
 					count = 2
-					while True:
-						new_addr_2  = new_addr + str(count) + '/'
-						new_page = get_page(new_addr_2,2)
+					new_addr_2  = new_addr + str(count) + '/'
+					new_page = get_page(new_addr_2,2)
 
+					if new_page: 
 						#if the commic has another page, repeat the process above.
-						if new_page:
-							new_page = BeautifulSoup(new_page)
-							comic2 = new_page.find(id = 'strip')
+						# any process that repeats ought to be turned into a function 
+						
+						# pseudocode: 
+						# download_page(url)
+						# while next_page_exists():
+						#	download_page(next_page_url)
 
-							src = comic2.get('src')
-							alt = comic2.get('alt')
-							title = comic2.get('title')
+						new_page = BeautifulSoup(new_page)
+						comic2 = new_page.find(id = 'strip')
 
-							filename = address[1:][:-1] + '-' + string.zfill(count, 3) + '.' + src[-3:].lower()
-							download(src, filename)
+						src = comic2.get('src')
+						alt = comic2.get('alt')
+						title = comic2.get('title')
+
+						filename = address[1:][:-1] + '-' + string.zfill(count, 3) + '.' + src[-3:].lower()
+						download(src, filename)
 
 
-							print filename
-							print os.path.join(outpath, os.path.basename(filename))
-							print title
-							print alt
+						print filename
+						print os.path.join(outpath, os.path.basename(filename))
+						print title
+						print alt
 
-							try:
-								make_page(os.path.join('out', filename), os.path.join(outpath, os.path.basename(filename)), title, alt)
-							except Exception, e:
-								print e
+						try:
+							make_page(os.path.join('out', filename), os.path.join(outpath, os.path.basename(filename)), title, alt)
+						except Exception, e:
+							print e
 
-							sys.stdout.flush()
+						sys.stdout.flush()
 
-							count = count + 1
+						count = count + 1
 
-							comic2 = new_page.find(href = address + str(count) + '/')
+						comic2 = new_page.find(href = address + str(count) + '/')
 
-							if comic2:
-								continue
-							else:
-								break
+						if comic2:
+							continue
+						else:
+							break
 
 
 
