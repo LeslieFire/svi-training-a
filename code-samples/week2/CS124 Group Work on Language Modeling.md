@@ -93,12 +93,12 @@ Next train a bigram language model using maximum likelihood estimation. Fill in 
 Suppose you build an interpolated trigram language model, with three weights lambda1 for unigrams, lambda2 for bigrams, and lambda3 for trigrams. Normally we set these lambdas on a held-out set. Suppose instead we set them on the training data. This will cause the lambdas to take on very unusual values. What will these lambdas look like? Why? 
  
 
-*Still havent answered this*
+*Still havent answered this.*
 
 
 Show that if we estimate two bigram language models using unsmoothed relative frequencies (MLE), one from a text corpus and the second from the same corpus in reverse order, the models will assign the same probability to new sentences (when applied in forward and backward order respectively). Hint: First write out the entire equation for sentence probabilities in terms of counts.
 
-*Still havent answered this*
+*Still havent answered this.*
 
 
 
