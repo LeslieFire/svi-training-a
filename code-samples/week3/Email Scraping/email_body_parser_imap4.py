@@ -1,12 +1,9 @@
 '''
-Written by Antonio Carlos L. Ortiz 03/06/2015
+Written by Antonio Carlos L. Ortiz. Updated: 03/09/2015
 Input: gmail account
 Output: attachments of the results of the specified search criteria from the gmail account
 are all saved to one folder called 'detach_dir'
 '''
-
-
-
 import sys
 import imaplib
 import email
@@ -14,15 +11,18 @@ import datetime
 import getpass
 import re
 import os
-from pprin import pprint
+from pprint import pprint
 
-detach_dir = 'detach_dir/'
+out_dir = 'out_dir/'
 
-if not os.path.exists(detach_dir[:-1]):
-    os.makedirs(detach_dir[:-1])
+if not os.path.exists(out_dir[:-1]):
+    os.makedirs(out_dir[:-1])
 
 username = raw_input('Enter your Gmail username: ')
 pwd = getpass.getpass('Enter your password: ')
+
+FROM = raw_input('Enter name of sender: ')
+SUBJECT = raw_input('Enter subject you want to search:')
 
 M = imaplib.IMAP4_SSL("imap.gmail.com")
 
@@ -35,7 +35,7 @@ except Exception, e:
 M.select("INBOX", readonly=True)
 #for the different search criterias, http://www.example-code.com/csharp/imap-search-critera.asp
 #search_response, msg_ids = M.search(None,'UNSEEN','(SUBJECT "foolish consistency")') #searching is not case sensitive
-search_response, msg_ids = M.search(None,'(SUBJECT "foolish consistency")')
+search_response, msg_ids = M.search(None,'(FROM "%s")' % FROM,'(SUBJECT "%s")' % SUBJECT)
 if search_response == 'OK':
     print 'Response Type: ', search_response
     msg_ids = msg_ids[0].split()
@@ -50,38 +50,15 @@ if search_response == 'OK':
         if mail.get_content_maintype() != 'multipart':
             continue
 
-        print mail["From"] + " " + mail["Subject"]
+        print mail["From"] + " " + mail["Subject"] + " " + mail["Date"]
 
         for part in mail.walk():
-            '''
-            Returns the MIME part of every part of the message.
-            Each part is either non-multipart, or another multipart message
-            which constains further parts.
-            Mail is organized like a tree with mail.walk().
-            '''
-            # multipart parts are just containers so we skip them
-            if part.get_content_maintype() == 'multipart':
+            if part.get_content_type() != 'text/plain':
                 continue
 
-            # to check if the part is an attachment. If you want
-            if part.get('Content-Disposition') is None:
-                continue
-
-            # the same as above
-#           if part.get_content_type != 'Content-Disposition':
-#                continue
-
-            filename = part.get_filename()
-            counter = 1
-
-            # if there is no filename, we create one with a counter to avoid duplicaters
-            if not filename:
-                filename = 'part-%d' % counter
-                counter += 1
-
-            attachment_path = os.path.join(detach_dir, filename)
-
-            #Check if it is already there
+            filename = 'Crunchbase Events: %s' % mail["Date"]
+            attachment_path = os.path.join(out_dir, filename)
+            #Check if the file is already there
             if not os.path.isfile(attachment_path):
                 fp = open(attachment_path, 'wb')
                 fp.write(part.get_payload(decode=True))
