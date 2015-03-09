@@ -2,9 +2,11 @@
 
 What this does is it scrapes the websiter livingsocial of all the details of their deals and promo. Simpy type:
 
-  scrapy crawl livingsocial
+    scrapy crawl livingsocial
 This is to run the app to run and place all the scraped data to our Postgresql database. Also included is a bash script that is placed in the crontab to automate running of app.
 
+<br/>
+<br/>
 *links:*
 * [Introduction to WebScraping using Scrapy.](http://newcoder.io/scrape/intro/)
 * [How to Install and use PostgreSQL on Ubuntu 14.04.](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-14-04)
