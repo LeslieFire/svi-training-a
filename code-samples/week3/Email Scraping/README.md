@@ -1,6 +1,6 @@
 #Email Scraping
 
-The script scrapes the message body of emails, specified either simple text or the html part.
+The script scrapes the message body of email based on the user's criteria on the sender and the subject. Before trying this out, please take note that the script is considered a "less secure app" by Google and would require OAUTH for it to not be classified as that.
 
 <br/>
 *links*:
