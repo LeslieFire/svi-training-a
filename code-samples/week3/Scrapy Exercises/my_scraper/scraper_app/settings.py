@@ -7,7 +7,7 @@ DATABASE = {
 	'host': 'localhost',
 	'port': '5432',
 	'username': 'antonio',
-	'password': 'stangg123',
+	'password': 'secret!',
 	'database': 'scrape'
 }
 
