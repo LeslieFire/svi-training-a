@@ -1,8 +1,8 @@
 '''
-Written by Antonio Carlos L. Ortiz. Updated: 03/09/2015
+Written by Antonio Carlos L. Ortiz. Updated: 03/17/2015
 Input: gmail account
 Output: attachments of the results of the specified search criteria from the gmail account
-are all saved to one folder called 'detach_dir'
+are all saved to one folder called 'out_dir'
 '''
 import sys
 import imaplib
@@ -54,6 +54,7 @@ if search_response == 'OK':
 
         print mail["From"] + " " + mail["Subject"] + " " + mail["Date"]
 
+        count = 0
         for part in mail.walk():
             if part.get_content_type() != TEXT_TYPE:
                 continue
