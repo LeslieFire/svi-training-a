@@ -1,4 +1,4 @@
-# Week 2 Code Samples
+# Week 3 Code Samples
 
 * [The script inside the Email Scraping Folder](https://github.com/SiliconValleyInsight/svi-training-a/tree/master/code-samples/week3/Email%20Scraping) searches through the user's email based on the user's criterions and returns the output inside the [out_dir](https://github.com/SiliconValleyInsight/svi-training-a/tree/master/code-samples/week3/Email%20Scraping/out_dir) folder.
 
