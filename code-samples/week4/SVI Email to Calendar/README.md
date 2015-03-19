@@ -3,11 +3,11 @@
 The main purpose of these scripts is to parse the events stated on subscription emails and automatically create events on the user's google calendar with regards to those.
 
 To that, the whole app was divided into four distinct parts namely:
-* Parse the specified emails using an IMAP connection to the mail client.
-* Crawl the parsed emails to get only the necessary data in them.
-* Place the scraped data inside a database.
-* Call those scraped data from the database to serve as input to Google Calendar API.
-* Schedule to call all these weekly for the calendar to be updated.
+* [Scrape the specified emails using an IMAP connection to the mail client.](#email)
+* [Crawl the saved emails to get only the necessary data in them.](#scrapy)
+* [Place the scraped data inside a database.](#scrapy)
+* [Call those scraped data from the database to serve as input to Google Calendar API.](#database and api)
+* [Schedule to call all these weekly for the calendar to be updated.](#bashscript and crontab)
 
 ## How to use
 #### Dependendies Required that are normally not included in the initial Python Setup:
@@ -24,7 +24,8 @@ To that, the whole app was divided into four distinct parts namely:
 * apiclient
 * oath2client
 
-####Parsing the Email
+<a id="email"></a>
+####Scrape the mail account
 Upon running the script in Email Scraping folder, Google will notify the user through email that an unsecured app is trying to access the account. This is because I still havent created the oath2 for this which Google recommends to have for every app that access its services. The user can simply change the setting of his account to allow 'less secure apps' just for this. Once that is done, running the script will get the specified email/s from your account and then save the html part of it to the local directory [out_dir](https://github.com/SiliconValleyInsight/svi-training-a/tree/master/code-samples/week4/SVI%20Email%20to%20Calendar/Email%20Scraping/out_dir).
 
 On running this, simply input the following command in the terminal
@@ -41,6 +42,8 @@ This will then save the html contents of all the emails scraped inside the local
 *   [Less Secure Apps](https://www.google.com/settings/security/lesssecureapps)
 *   [Fetching all messages since last check with Python + Imap](https://blog.jtlebi.fr/2013/04/12/fetching-all-messages-since-last-check-with-python-imap/)
 *   [Gmail blocks less secure apps](http://www.ghacks.net/2014/07/21/gmail-starts-block-less-secure-apps-enable-access/)
+
+<a id="scrapy"></a>
 
 ####Scrape data out of the Email
 Once the html part of the email has been saved, we can now get the specific contents of the email using Scrapy using the app in the [my_scraper](https://github.com/SiliconValleyInsight/svi-training-a/tree/master/code-samples/week4/SVI%20Email%20to%20Calendar/my_scraper) folder.
@@ -59,6 +62,7 @@ For a more detailed instructions, please go to the link below:
 For further reference:
 *   [python scrapy on offline local data](http://stackoverflow.com/questions/19385837/python-scrapy-on-offline-local-data)
 
+<a id="database and api"></a>
 ####Query from the database, edit the result, then use that to post events through the google calendar api.
 On querying, simply run the script named  [database_query.py](https://github.com/SiliconValleyInsight/svi-training-a/blob/master/code-samples/week4/SVI%20Email%20to%20Calendar/SVI%20Calendar/database_query.py) inside folder [SVI Calendar](https://github.com/SiliconValleyInsight/svi-training-a/tree/master/code-samples/week4/SVI%20Email%20to%20Calendar/SVI%20Calendar). What this does is it queries all the info inside the database used in Scrapy then formats it in a a way that can be read by the google calendar api. You dont need to run this as this function inside will be called by the final script.
 
@@ -83,6 +87,7 @@ Reference links:
 *   [Google Calendar API Insert Events](https://developers.google.com/google-apps/calendar/v3/reference/events/insert)
 *   [Using Google Calendar API v 3 with Python](http://stackoverflow.com/questions/14058964/using-google-calendar-api-v-3-with-python)
 
+<a id="bashscript and crontab"></a>
 ###Bash Scripts and CronTab
 Instead of running all these scripts by yourself, we can create a bash script and input that to the crontab so that it will automatically schedule the run of all of these. What I still havent done this for the whole app and i've only written one for the spider just to see if it works. To run it, get inside the my_scraper folder and run the following command:
 
