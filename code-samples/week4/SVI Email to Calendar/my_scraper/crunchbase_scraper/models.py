@@ -1,11 +1,3 @@
-'''
-Written by Antonio Carlos L. Ortiz. Updated: 03/18/2015
-Input: None
-Output: functions to be called when creating a table to
-specified database.
-'''
-
-
 from sqlalchemy import create_engine
 from sqlalchemy import Column
 from sqlalchemy import Integer

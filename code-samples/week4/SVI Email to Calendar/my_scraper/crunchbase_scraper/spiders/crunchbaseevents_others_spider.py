@@ -8,7 +8,7 @@ from crunchbase_scraper.items import CrunchBaseEvent
 
 class CrunchBaseEventsSpider(BaseSpider):
     """Spider for the CrunchBase Events Newsletter"""
-    name = "crunchbaseevents_spider"
+    name = "crunchbaseevents_others_spider"
     allowed_domains = ["crunchbase.com"]
     start_urls = []
     url_dir = '/home/antonio/SVI/SVI Email to Calendar/Email Scraping/out_dir'
@@ -20,8 +20,7 @@ class CrunchBaseEventsSpider(BaseSpider):
 
             start_urls.append(start_url)
 
-    events_list_xpath = '//tr[@style="display: block; padding-top: 20px;"]'
-    
+    events_list_xpath = '/html/body/center/table[9]/tbody/tr/td/table/tbody/tr/td[not(@align)]'    
     #'title':'.//span[@itemscope]/meta[@itemprop="name"]/@content', 
     #element li with dealid parameter, element span with itemscope parameter,
     #element meta with itemprop parameter with value "name",  return the value 
@@ -29,13 +28,12 @@ class CrunchBaseEventsSpider(BaseSpider):
 
     #check the source first rather than the DOM that was interpreted by the browser.
     item_fields = {    
-                   'description':   './/td/table/tbody/tr/td/table[@style]/tbody/td/text()',
-                   'summary':       './/td/table/tbody/tr/td/table[@border]/tbody/tr/td[2]/table[1]/tbody/tr/td/a/text()',
-                   'link':          './/td/table/tbody/tr/td/table[@border]/tbody/tr/td[2]/table[1]/tbody/tr/td/a/@href',
-                   'start':         './/td/table/tbody/tr/td/table[@border]/tbody/tr/td[2]/table[2]/tbody/tr[1]/td[2]/text()',
-                   'end':           './/td/table/tbody/tr/td/table[@border]/tbody/tr/td[2]/table[2]/tbody/tr[1]/td[2]/text()',
-                   'location':      './/td/table/tbody/tr/td/table[@border]/tbody/tr/td[2]/table[2]/tbody/tr[3]/td[2]/text()',
-                   'time':          './/td/table/tbody/tr/td/table[@border]/tbody/tr/td[2]/table[2]/tbody/tr[2]/td[2]/text()',
+                   'description':   './table/tbody/tr[2]/td/table/tbody/tr/td/text()',
+                   'summary':       './table/tbody/tr[1]/td/table/tbody/tr/td[2]/table/tbody/tr[1]/td/a/text()',
+                   'link':          './table/tbody/tr[1]/td/table/tbody/tr/td[2]/table/tbody/tr[1]/td/a/@href',
+                   'start':         './table/tbody/tr[1]/td/table/tbody/tr/td[2]/table/tbody/tr[2]/td/text()',
+                   'end':           './table/tbody/tr[1]/td/table/tbody/tr/td[2]/table/tbody/tr[2]/td/text()',
+                   'location':      './table/tbody/tr[1]/td/table/tbody/tr/td[2]/table/tbody/tr[3]/td/text()',
                    }
 
     def parse(self, response):

@@ -1,8 +1,3 @@
-'''
-Written by Antonio Carlos L. Ortiz. Updated: 03/18/2015
-Input: None
-Output: connect the database to the spider.
-'''
 from sqlalchemy.orm import sessionmaker
 from models import Events
 from models import db_connect
@@ -24,8 +19,15 @@ class CrunchBaseEventsPipeline(object):
 		Save events in the database.
 		This method is called for every item pipeline component.
 		"""
+
 		session = self.Session()
 		event = Events(**item)
+
+		if 'others' in str(spider):
+			event.summary = 'Other Event: ' + event.summary
+		elif 'accelerator' in str(spider):
+			event.summary = 'Accelerator Deadline: ' + event.summary
+
 		try:
 			session.add(event)
 			session.commit()
