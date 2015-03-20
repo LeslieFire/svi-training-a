@@ -53,7 +53,9 @@ For this to run, the user should have already created a postgres database and ha
 To start this, go inside the my_scraper folder and run the command:
 
     scrapy crawl crunchbaseevents_spider
-Scrapy is the the name of the framework we use. Crawl is the command for the spider to start crawling the website, and crunchbaseevents_spider is the name of the spider specified in the spider script. Running the command will place all the scraped data inside the specified database
+    scrapy crawl crunchbaseevents_others_spider
+    scrapy crawl crunchbaseevents_accelerator_spider
+Scrapy is the the name of the framework we use. Crawl is the command for the spider to start crawling the website, and the last is the name of the spider specified in the spider script. Running the command will place all the scraped data inside the database.
 
 For a more detailed instructions, please go to the link below:
 
@@ -103,6 +105,7 @@ Reference links:
 
 ##To Do list
 * <s>Add links to the docs.</s> 03/19/2015
+* Fix format of other two spiders.
 * Create a function that would check if the email have already been scraped or not.
 * Create another spider that can also get the details of smaller events.
 * Create a script that could call a database function to remove duplicate entries.
