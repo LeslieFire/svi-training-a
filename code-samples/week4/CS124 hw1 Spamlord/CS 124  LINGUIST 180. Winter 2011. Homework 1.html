@@ -1,0 +1,146 @@
+
+<!-- saved from url=(0047)http://web.stanford.edu/class/cs124/hw/hw1.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>CS 124/ LINGUIST 180. Winter 2011. Homework 1</title>
+</head>
+<body bgcolor="#ffffff">
+
+<table width="100%">
+<tbody><tr>
+<td><img src="./CS 124  LINGUIST 180. Winter 2011. Homework 1_files/stanford.seal64.gif" alt="STANFORD"></td>
+
+<td width="100%"><font size="+2">CS 124 / LINGUIST 180  &nbsp; - &nbsp; &nbsp; Winter 2011
+<br>Homework 1: Harvesting emails and phone numbers</font></td></tr>
+
+</tbody></table>
+
+<table border="0" cellpadding="3" width="100%" bgcolor="#990000">
+<tbody><tr>
+<td><b><font color="#FFFFFF"><font size="+1">Due: Thursday Jan 13 at 9:30am</font></font></b></td>
+</tr>
+</tbody></table>
+
+<p>
+Here's your chance to be a SpamLord! Yes, you too can build regexes to help spread evil throughout the galaxy! 
+
+</p><p>
+More specifically, your  goal in this assignment is to write regular expressions that
+extract phone numbers and regular expressions that extract email addresses.
+
+</p><p>
+To start with a trivial example, given
+</p><pre>jurafsky@stanford.edu
+</pre>
+your job is to return
+<pre>jurafsky@stanford.edu
+</pre>
+<p>
+But you also need to deal with more complex examples
+created by people trying to shield their addresses,
+such as the following types of examples that I'm sure you've all seen:
+</p><pre>jurafsky(at)cs.stanford.edu
+jurafsky at csli dot stanford dot edu
+</pre>
+<p> You should even handle examples that look like the following (as it appears on your screen; 
+we've used metachars on this page to make it display properly):
+</p><pre><code> &lt;script type="text/javascript"&gt;obfuscate('stanford.edu','jurafsky')&lt;/script&gt; </code>
+</pre>
+For all of the above you should return the corresponding email address
+<pre>jurafsky@stanford.edu OR jurafsky@cs.stanford.edu OR jurafsky@csli.stanford.edu
+</pre>
+as appropriate.
+
+<p>
+Similarly, for phone numbers, you need to handle examples like the following:
+
+</p><pre>TEL +1 650 723 0293
+Phone:  (650) 723-0293
+Tel (+1): 650-723-0293
+<code>&lt;a href="contact.html"&gt;TEL&lt;/a&gt; +1&amp;thinsp;650&amp;thinsp;723&amp;thinsp;0293</code>
+</pre>
+all of which should return the following canonical form:
+<pre>650-353-0173
+</pre>
+(you can assume all phone numbers we give you will be inside North America).
+
+<p>
+In order to make it easier for you to do this and other homeworks, we 
+will be giving you some data to test your code on, what is technically called a <i>development test set</i>.
+This is a document with some emails and phone numbers, together with the correct answers, so that you can
+make sure your code extracts  all and only the right information.
+
+</p><p>
+You will be graded on how well your regular expressions find emails and phone numbers
+in a different <i>test set</i> that we have.  Because you don't know exactly what trickery goes on in
+this test set, you should be creative in looking at the web and thinking of different types 
+of ways of encoding emails and phone numbers, and not just rely on the methods we've listed here,
+or are listed in the homework.
+</p><p>
+<b>You won't have to deal with:</b> really difficult examples
+like images  of any kind, or examples that require parsing names into first/last like:
+</p><pre> "first name"@cs.stanford.edu 
+</pre>
+or difficult examples like my friend <a href="http://www.cs.colorado.edu/~martin/">Jim Martin</a>, whose email is listed only as:
+<pre>To send me email, try the simplest address that makes sense.
+</pre>
+
+
+<h2>What language should I use?</h2>
+<p>
+You may use any programming language you like, but since we  have to run your code
+on our test sets, if we have trouble running your code you will not receive full credit.
+For this reason, we suggest sticking to wide-spread and portable languages like Java, python, or Perl.
+</p><p>
+
+We have provided starter code written in Java, available in /usr/class/cs124/assignments/hw1/ , which has a directory structure like:
+
+</p><pre> hw1/
+   build # A script to build your code.
+   config # A configuration script
+   example/ # a minimal example set that shows how everything works.
+   exampleGOLD # the correct answers
+   run # to run your code
+   SpamLord.java # starter code.
+   train/ # The training set
+   trainGold/ # What we think are the right answers. (If you see something we don't, let us know!)
+</pre>
+
+<p>By default, if you execute:
+
+</p><pre>./run example exampleGOLD
+</pre>
+
+It will run your code on the minimal example, which extracts a name (not an email address) and prints it. This example just shows you how Java regexes work. This output is then compared with the unix utility diff. diff compares two files and prints differences between then. No printing means the files were the same, which is the case here.
+
+Try again, with  s/example/train/g, and you should see the phone numbers and email addresses of many of your professors! The "&lt;" indicates that the "GOLD" output (our output) has something that you do not. A "&gt;" would indicate the reverse. You can safely ignore the weird numbers like "37a3". 
+
+Your goal, then, is to reduce the printed output to nothing. Note that if you just want to see what you're printing (and not the diff), run "java -cp classes/ SpamLord train".
+
+<p></p><p>You may change anything you want in this starter directory.<b>However, we expect to be able to say </b></p><pre><b>./build &amp;&amp; ./run (some set) (some answers)</b></pre><b> and for it to work!</b> If you only edit SpamLord.java, you should be fine.<p></p>
+
+<h2>Where is the development data?</h2>
+
+<p> The development data lives in /usr/class/cs124/assignments/hw1/train/ with answers in /usr/class/cs124/assignments/hw1/trainGOLD. </p>
+
+<h2>What format do I print the results in?</h2>
+
+<p> The results should be printed to standard out (System.out.println) with the following format:
+
+</p><pre>&lt;filename&gt; &lt;TAB&gt; &lt;p or e&gt; &lt;TAB&gt; &lt;email or phone #&gt;
+</pre>
+
+The canonical forms we expect are: user@example.com and 650-555-1234.
+
+<p></p>
+
+
+<h2>What do I turn in and how?</h2>
+
+
+<p>First, how. In the directory you plan to submit, execute </p><pre>/usr/class/cs124/bin/submit</pre>. This is almost exactly the same script as CS107 uses, so most of you should be familiar. Just follow the direction and email us if you have any problems. <p></p> 
+
+<p>Second, what. Your code, your build, config, and run files, and then a README with a description of the kinds of things you can extract, and anything else you want to tell us.</p>
+
+
+
+</body></html>
