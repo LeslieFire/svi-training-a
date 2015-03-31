@@ -1,8 +1,24 @@
+'''
+Written by Antonio Carlos L. Ortiz 03/31/2015
+Input: csv files in the same directory with data that needs to be converted to qr code on the first
+	   column.
+Output: qr codes with filenames as QR_productcodehere.png
+'''
+
 import csv
 import pyqrcode
 import os
 import glob
 import qrtools
+
+#version specifies the size and data capacity of the code,
+#version defaults to the minimum possible value but for
+#the sake of uniformity, we assign it a set value of 2.
+VERSION = 2
+
+#scale dictates how large the qr code is, for the sake of
+#uniformity, we gave it a value of 3.
+SCALE = 3
 
 def csv_convert(file):
 	'''
@@ -23,16 +39,10 @@ def qr_create(my_list):
 	'''
 
 	for i in my_list:
-		#version specifies the size and data capacity of the code,
-		#version defaults to the minimum possible value but for
-		#the sake of uniformity, we assign it a set value of 2.
-		code = pyqrcode.create(str(i),version=2)
+		code = pyqrcode.create(str(i),version=VERSION)
 		print code
 		filename = 'QR_' + str(i) + '.png'
-
-		#scale dictates how large the qr code is, for the sake of
-		#uniformity, we gave it a value of 3.
-		code.png(filename, scale=3)
+		code.png(filename, scale=SCALE)
 
 def test_if_correct(productcode_lists,outpath):
 	'''
@@ -50,6 +60,7 @@ def test_if_correct(productcode_lists,outpath):
 
 	count = 0
 	for image in image_list:
+		print image
 		qr = qrtools.QR()
 		qr.decode(image)
 
@@ -59,6 +70,8 @@ def test_if_correct(productcode_lists,outpath):
 
 	if count == 0:
 		print 'all qr codes are correct.'
+	else:
+		print 'some of the qr codes were incorrectly generated.'
 
 if __name__ == '__main__':
 
