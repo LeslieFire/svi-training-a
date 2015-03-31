@@ -2,10 +2,10 @@
 
 The purpose of this script is to automate the generation of qr codes given a list.
 
-#### Dependendies Required that are normally not included in the initial Python Setup:
+#### Dependendies Required that are normally not included in the initial python setup:
 * csv (for reading csv files)
 * pyqrcode (for creating qr codes)
-* qrtools (for decoding qr codes
+* qrtools (for decoding qr codes)
 
 #### How to use
 
