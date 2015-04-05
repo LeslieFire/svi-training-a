@@ -1,10 +1,9 @@
 '''
-Written by Antonio Carlos L. Ortiz. Updated: 03/18/2015
-Input: the database query returned by database_query.py
+Written by Antonio Carlos L. Ortiz. Updated: 04/05/2015
+Input: the database query results returned by database_query.py
 Output: calls the google calendar api with oauthentication 2.0 and automatically
-creates events on the users google calendar based from the query.
+creates events based from the query.
 '''
-
 #!/usr/bin/env python
 
 # modified from:
@@ -22,27 +21,16 @@ from database_query import query
 import json
 import collections
 
-#this is to convert unicode to str as I believe google wont accept a unicode format.
-def convert(data):
-    if isinstance(data, basestring):
-        return str(data)
-    elif isinstance(data, collections.Mapping):
-        return dict(map(convert,data.iteritems()))
-    elif isinstance(data, collections.Iterable):
-        return type(data)(map(convert, data))
-    else:
-        return data
-
 def main():
 
     scope = 'https://www.googleapis.com/auth/calendar'
     
-    #flow_from_clientsecrets is better than using OAuth2WebServerFlow since
-    #with the former, you only need to state the client_secret json you obtained
+    #flow_from_clientsecrets is better than using OAuth2WebServerFlow.
+    #With the former, you only need to state the client_secret json you obtained
     #from the developer console.
     flow = flow_from_clientsecrets('client_secret.json', scope=scope)
 
-    #the 'credentials.dat' is created from the run_flow clientsecrets method above.
+    #the 'credentials.dat' is created from the run_flow below.
     storage = Storage('credentials.dat')
     credentials = storage.get()
 
@@ -61,8 +49,7 @@ def main():
     service = build(serviceName='calendar',version='v3', http=http)
 
     event_list = query()
-    new_event_list = convert(event_list)
-    for event in new_event_list:
+    for event in event_list:
         created_event = service.events().insert(calendarId='primary',body=event).execute()
         pprint(created_event)
 

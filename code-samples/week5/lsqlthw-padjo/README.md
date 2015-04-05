@@ -146,7 +146,7 @@ Show the top 3 districts when it comes to making arresting suspected stalkers.
 	LIMIT 3
 
 ####JOIN, ON
-For joining rows from different tables. JOIN is the same as INNER JOIN
+For joining rows from different tables. JOIN is the same as INNER JOIN. Typically you would see the same result as when you are using WHERE but on using OUTER JOIN, it would be different.
 
 ex:
 

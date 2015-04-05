@@ -1,65 +1,70 @@
 '''
-Written by Antonio Carlos L. Ortiz. Updated: 03/18/2015
+Written by Antonio Carlos L. Ortiz. Updated: 04/05/2015
 Input: None
-Output: to query the specified database on settings.py
-and return a dict object that is fashioned to the requirement
+Output: to query the database and return a dict object that is fashioned to the requirement
 of the google calendar api.
 '''
 
-#this required local virtualon ScrapeProj
-
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from models import Events
 from sqlalchemy.engine.url import URL
-import settings
+
+from models import Events
 from pprint import pprint
-from stringtodate import string2date
+from stringtodate import stringtodate
+
+import settings
 
 def query():
-	engine = create_engine(URL(**settings.DATABASE))
+    engine = create_engine(URL(**settings.DATABASE))
 
-	# create a Session
-	Session = sessionmaker(bind=engine)
-	session = Session()
+    # create a Session
+    Session = sessionmaker(bind=engine)
+    session = Session()
 
-	table_list = []
-	tablename = Events
+    table_list = []
 
-	response = session.query(tablename).all()
-	for event in response:
-		table_dict = {}
-		start_dict = {}
-		end_dict = {}
-		for attribute in dir(event):
-			if 'unicode' in str(type(attribute)):
-				table_dict[attribute] = getattr(event, attribute)	
+    response = session.query(Events).all()
+    for event in response:
+        table_dict = {}
+        start_dict = {}
+        end_dict = {}
+        for attribute in dir(event):
+            if 'unicode' in str(type(attribute)):
+                table_dict[attribute] = getattr(event, attribute)   
 
-		table_dict['start'] = string2date(getattr(event,'start'),'start')
-		table_dict['end'] = string2date(getattr(event,'end'),'end')		
-		
-		if table_dict['end'] is None:
-			table_dict['end'] = table_dict['start']
+        table_dict['end'] = stringtodate(getattr(event,'end'),'end')        
+              
+        if table_dict['start'] is None:
+            table_dict['start'] = table_dict['end']
+        else:
+            table_dict['start'] = stringtodate(getattr(event,'start'),'start')
 
-		start_dict['date'] = table_dict['start']
-		end_dict['date'] = table_dict['end']
+        start_dict['date'] = table_dict['start']
+        end_dict['date'] = table_dict['end']
 
-		table_dict['start'] = start_dict
-		table_dict['end'] = end_dict
+        table_dict['start'] = start_dict
+        table_dict['end'] = end_dict
 
-		time = getattr(event, 'time')
-		time = time.replace("\r\n", " ")
+        time = getattr(event, 'time')
 
-		link = getattr(event, 'link')
-		description = getattr(event, 'description')
-		table_dict['description'] = ' '.join([description, time, link])
+        if 'unicode' in str(type(time)):
+            time = time.replace("\r\n", " ")
 
-		table_dict.pop('time', None)
-		table_dict.pop('link', None)
+        if time is None:
+            time = ' '
 
-		table_list.append(table_dict)
-	
-	return table_list
+        link = getattr(event, 'link')
+        description = getattr(event, 'description')
+
+        table_dict['description'] = ' '.join([description, time, link])
+
+        table_dict.pop('time', None)
+        table_dict.pop('link', None)
+
+        table_list.append(table_dict)
+    
+    return table_list
 
 if __name__ == "__main__":
-	query()	
+    pprint(query())

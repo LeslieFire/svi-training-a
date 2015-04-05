@@ -1,11 +1,11 @@
 '''
-Written by Antonio Carlos L. Ortiz. Updated: 03/18/2015
+Written by Antonio Carlos L. Ortiz. Updated: 04/15/2015
 Input: the date returned by the database
 Output: edits the date to the format that is required by
-the google calendar api
+the google calendar api.
 '''
 
-def string2date(s,startend='start'):
+def stringtodate(s,startend='start'):
     month_dict = {"January":'01',
                   "February":'02',
                   "March":'03',
@@ -27,11 +27,11 @@ def string2date(s,startend='start'):
 
     if startend == 'end':
         try:
-            mm = month_dict[s[4]]
-            dd = s[5]
+            mm = month_dict[s[-3]]
+            dd = s[-2]
             if len(dd) <= 1:
               dd = '0' + dd 
-            yy = s[6]
+            yy = s[-1]
             return '-'.join([yy,mm,dd])
         except:
           startend == 'start'
@@ -43,6 +43,3 @@ def string2date(s,startend='start'):
           dd = '0' + dd
         yy = s[2]
         return '-'.join([yy,mm,dd])
-    
-    else:
-        return 'specify whether start or end'

@@ -7,10 +7,12 @@ import os
 from crunchbase_scraper.items import CrunchBaseEvent
 
 class CrunchBaseEventsSpider(BaseSpider):
-    """Spider for the CrunchBase Events Newsletter"""
+    """Spider for the Other CrunchBase Events in the Newsletter"""
     name = "crunchbaseevents_others_spider"
     allowed_domains = ["crunchbase.com"]
     start_urls = []
+    
+    #where the local files are
     url_dir = '/home/antonio/SVI/SVI Email to Calendar/Email Scraping/out_dir'
 
     for subdir, dirs, files in os.walk(url_dir):

@@ -1,5 +1,5 @@
 '''
-Written by Antonio Carlos L. Ortiz. Updated: 03/18/2015
+Written by Antonio Carlos L. Ortiz. Updated: 04/05/2015
 Input: None
 Output: Same as the one in the spider but only used to have a clear reference
 what table is being called by database_query.py

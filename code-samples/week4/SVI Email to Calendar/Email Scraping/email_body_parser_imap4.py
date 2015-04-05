@@ -1,5 +1,5 @@
 '''
-Written by Antonio Carlos L. Ortiz. Updated: 03/17/2015
+Written by Antonio Carlos L. Ortiz. Updated: 04/05/2015
 Input: gmail account
 Output: attachments of the results of the specified search criteria from the gmail account
 are all saved to one folder called 'out_dir'

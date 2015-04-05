@@ -11,6 +11,8 @@ class CrunchBaseEventsSpider(BaseSpider):
     name = "crunchbaseevents_accelerator_spider"
     allowed_domains = ["crunchbase.com"]
     start_urls = []
+
+    #where the local files are
     url_dir = '/home/antonio/SVI/SVI Email to Calendar/Email Scraping/out_dir'
 
     for subdir, dirs, files in os.walk(url_dir):

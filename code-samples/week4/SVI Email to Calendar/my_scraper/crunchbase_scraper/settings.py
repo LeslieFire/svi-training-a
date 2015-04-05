@@ -3,12 +3,17 @@ BOT_NAME = 'crunchbaseevents'
 SPIDER_MODULES = ['crunchbase_scraper.spiders']
 
 DATABASE = {
-	'drivername': 'postgres',
+	'drivername': '',
 	'host': 'localhost',
 	'port': '5432',
-	'username': 'postgres',
-	'password': 'secret',
-	'database': 'crunch_base_events_scrape_db'
+	'username': '',
+	'password': '',
+	'database': ''
 }
 
 ITEM_PIPELINES = ['crunchbase_scraper.pipelines.CrunchBaseEventsPipeline']
+
+try:
+	from .local_settings import *
+except ImportError:
+	pass
