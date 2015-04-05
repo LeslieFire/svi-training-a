@@ -9,9 +9,9 @@ DATABASE = {
 	'drivername': 'postgres',
 	'host': 'localhost',
 	'port': '5432',
-	'username': 'postgres',
-	'password': 'stangg123',
-	'database': 'scrape_crunchbase'
+	'username': '',
+	'password': '',
+	'database': ''
 }
 
 try:
