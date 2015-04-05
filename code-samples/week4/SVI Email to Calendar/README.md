@@ -103,10 +103,10 @@ Reference links:
 
 ##To Do list
 * <s>Add links to the docs.</s> 03/19/2015
-* <s>Fix format of other two spiders.</s> 04/05/2015
+* <s>Fix the format of the dates for the other two spiders.</s> 04/05/2015
 * Create a function that would check if the email have already been scraped or not.
-* Create another spider that can also get the details of smaller events.
+* <s>Create another spider that can also get the details of smaller events.</s> 04/05/2015
 * Create a script that could call a database function to remove duplicate entries.
-* Create a bash script to run all these automatically
-* Place an oath2 on the IMAP4 script
+* Create a bash script to run all these automatically.
+* Place an oath2 on the IMAP4 script.
 * Check whether it would be better if we just use the Gmail API instead of the IMAP4 Script.
