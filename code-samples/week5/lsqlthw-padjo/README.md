@@ -55,21 +55,22 @@ As opposed to this:
 	SELECT * from sfpd_incidents
 	WHERE Resolution = 'ARREST, BOOKED' OR Resolution = 'ARREST, CITED'
 We have:
+
 	SELECT * from sfpd_incidents
 	WHERE Resolution LIKE 'ARREST%'
 	
 Other examples:
 
-*	prepend the wildcard. The command below will return any rows with "AGGRAVATED ASSAULT"
+prepend the wildcard. The command below will return any rows with "AGGRAVATED ASSAULT"
 	
 	SELECT * FROM sfpd_incidents
 	WHERE Descript LIKE '%AGGRAVATED ASSAULT%'
 
-*	For a hacky time and date filtering, this would select all records in which the Date took place in May:
+For a hacky time and date filtering, this would select all records in which the Date took place in May:
 
 	SELECT * from sfpd_incidents WHERE Date LIKE '%-05-%'
 
-*	The underscore wildcard. the underscore, '_', can act as a stand-in for a single character. The example below will catch all records in which the proposition 'OF' or 'ON' were used.
+The underscore wildcard. the underscore, '_', can act as a stand-in for a single character. The example below will catch all records in which the proposition 'OF' or 'ON' were used.
 
 	SELECT * FROM sfpd_incidents
 	WHERE Descript LIKE 'AGGRAVATED ASSAULT O_'
