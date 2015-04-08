@@ -49,7 +49,7 @@ class CrunchBaseEventsSpider(BaseSpider):
             loader.default_input_processor = MapCompose(unicode.strip)
             loader.default_output_processor = Join()
 
-            #iterate over fields and add xpaths to the loader.
+            #iterate over item_fields and add xpaths to the loader.
             for field, xpath in self.item_fields.iteritems():
                 loader.add_xpath(field, xpath)
 
