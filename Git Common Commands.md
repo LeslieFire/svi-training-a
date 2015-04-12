@@ -43,6 +43,10 @@ git pull origin master
 ```
 Check for any changes in our git repository and pull down any changes.
 
+Reference for what ```git pull``` actually does:
+
+[origin master vs origin/master](http://stackoverflow.com/questions/18137175/in-git-what-is-the-difference-between-origin-master-vs-origin-master)
+
 ```
 git diff HEAD
 ```
@@ -94,7 +98,7 @@ git merge -d -f <branchname>
 ```
 or
 ```
-got merge -D <branchname>
+git merge -D <branchname>
 ```
 to delete branches that havent been merged with the master branch.
 
