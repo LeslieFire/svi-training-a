@@ -14,4 +14,9 @@
 
   ```pg_restore --verbose --clean --no-acl --no-owner -h localhost -U myuser -d <name of db> <name of file>```
   
-  This will create the schema and the rows inside the blank db and there. You just successfully exported the remote heroku db to local.
+  This will create the schema and the rows inside the blank db and there. You just successfully exported the remote heroku db to local
+  
+**Relevant Links**
+* [Export PostGres Query to CSV](http://www.saintsjd.com/2014/11/20/export-postgres-query-to-csv.html)
+* [Heroku PG Backups](https://devcenter.heroku.com/articles/heroku-postgres-backups)
+* [Converting PGBackups Add-on Commands](https://devcenter.heroku.com/articles/mapping-pgbackups-commands)
