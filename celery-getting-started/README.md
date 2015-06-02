@@ -1,17 +1,20 @@
 #Celery Beat
 ###Celery beat without django guide
 
-1. Install Celery Beat:
+**Install Celery Beat**
 
 ```sudo pip install Celery```
 
-2. Create a celeryconfig.py
+**Create a celeryconfig.py**
+
 Use RabbitMQ for the broker
 ```
 BROKER_URL = 'amqp://localhost//'
 CELERY_RESULT_BACKEND = 'db+postgresql://localhost/<db for messages. Create this on your own>'
 ```
-3. Create some tasks (save to tasks.py)
+
+**Create some tasks (save to tasks.py)**
+
 ```
 from celery import Celery
 
@@ -22,7 +25,9 @@ celery.coming_from_project('celeryconfig')
 def add(x, y):
     return x + y
 ```
-4. Update your celeryconfig.py
+
+**Update your celeryconfig.py**
+
 ```
 from datetime import timedelta
 
@@ -42,7 +47,8 @@ CELERYBEAT_SCHEDULE = {
 
 *'args' are the positional arguments you pass to the task*
 
-5. Start Celery through the terminal
+**Start Celery through the terminal**
+
 ```
 celery -A tasks worker --loglevel=info --beat
 ```
