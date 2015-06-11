@@ -12,3 +12,5 @@ Options are listed one per line within a section. The line starts with the name 
 ###Notes
 
 **repr()** - returns a string representation of an object.
+
+* do not put apostrophes at the ends of string values as ConfigParser will take it literally with the value.
