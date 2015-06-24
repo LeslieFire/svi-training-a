@@ -56,5 +56,12 @@ local   all             postgres                                trust
 ```
 &nbsp;&nbsp;3. &nbsp;reload postgreSQL server configuration: ```sudo /etc/init.d/postgresql reload```
 
+###Install pip/virtualenv/virtualenvwrapper
+Install pip: ```sudo apt-get install python-pip```
+
+Install virtualenv: ```sudo pip install virtualenv```
+
+Install virtualenvwrapper: ```sudo pip install virtualenvwrapper```
+
 
 #TO BE CONTINUED...
