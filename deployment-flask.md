@@ -57,11 +57,59 @@ local   all             postgres                                trust
 &nbsp;&nbsp;3. &nbsp;reload postgreSQL server configuration: ```sudo /etc/init.d/postgresql reload```
 
 ###Install pip/virtualenv/virtualenvwrapper
-Install pip: ```sudo apt-get install python-pip```
+Install pip (for easy module installation): ```sudo apt-get install python-pip```
 
-Install virtualenv: ```sudo pip install virtualenv```
+Install virtualenv (for easy dependency management): ```sudo pip install virtualenv```
 
-Install virtualenvwrapper: ```sudo pip install virtualenvwrapper```
+Install virtualenvwrapper (for easier dependency management): ```sudo pip install virtualenvwrapper```
 
+Install python-dev (to make **psycopg2** work which is then used by **sqlalchemy**): ```sudo apt-get install psycopg2``` and ```sudo apt-get install libpq-dev```
 
-#TO BE CONTINUED...
+###Transferring your local app to AWS Instance
+be careful to change all the paths affected by the change in directory.
+
+```scp -i name_of_key_pair.pem path/of/app/folde -r ubuntu@public_ip:<path within instance>```
+
+create a virtualenv for all the dependencies: ```mkvirtualenv <my_virtualenv> && workon <my_virtualenv>```
+
+populate virtualenv with dependencies: ```pip freeze -r requirements.txt```
+
+Check if everything is running by running the tests again (if ever you created a few).
+
+###Running gunicorn
+In production, we won't be single threaded development servers. We will instead use a dedicated application server called **gunicorn**.
+
+For Flask: ```gunicorn run:app``` the word run being the name of wsgi script (run.py).
+
+###Running nginx
+Installing nginx: ```sudo apt-get install nginx```
+
+Delete the default config and create a new config for the app that will listen to port 80 (the HTTP port that we set while creating the AWS instance) and will then pass it to port 8000 (the default port of gunicorn):
+```
+sudo rm /etc/nginx/sites-enabled/default
+sudo nano /etc/nginx/sites-available/flask_project
+```
+Inside the flask project, write:
+```
+  server {
+    listen 80;
+    server_name example.org;
+    access_log  /var/log/nginx/example.log;
+
+    location / {
+        proxy_pass http://127.0.0.1:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+  }
+```
+Create a symbolic link to sites enabled: ```sudo ln -s /etc/nginx/sites-available/flask_project /etc/nginx/sites-enabled/flask_project```
+
+Restart nginx to start the new changes with either method:
+* ```sudo /etc/init.d/nginx restart```
+* ```sudo service nginx restart```
+
+#TO BE ADDED SOON..
+* run gunicorn as daemon
+* create an upstart script for gunicorn
+* use supervisord
