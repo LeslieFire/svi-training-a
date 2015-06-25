@@ -2,7 +2,7 @@
 
 ###AWS Instance
 1. First create an AWS instance.
-2. save the pem key to /home/<username>/.ssh/
+2. save the pem key to /home/your_username/.ssh/
 3. edit the inbout security rules under Security Groups dropdown to include HTTP with port range 80. This is so you can access the instance from the net.
 4. change the security of the key using: ```chmod 400 name_of_key_pair.pem```
 
