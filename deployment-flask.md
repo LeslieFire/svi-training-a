@@ -13,7 +13,7 @@ for ubuntu virtual instance:
 
 To transfer files inside, use: ```scp -i name_of_key_pair.pem samplefile.txt ubuntu@public_ip:<path within instance>```
 
-To transfer folders, replace **samplefile.txt** with ```path/to/folder -r``` -r for recursive transfer.
+To transfer folders, replace **samplefile.txt** with ```-r path/to/folder``` -r for recursive transfer.
 
 ###Updating the system instance
 Inside the instance, make sure to run commands below so that everything gets updated before we begin our work:
@@ -68,7 +68,7 @@ Install python-dev (to make **psycopg2** work which is then used by **sqlalchemy
 ###Transferring your local app to AWS Instance
 be careful to change all the paths affected by the change in directory.
 
-```scp -i name_of_key_pair.pem path/of/app/folde -r ubuntu@public_ip:<path within instance>```
+```scp -i name_of_key_pair.pem -r path/of/app/folder ubuntu@public_ip:<path within instance>```
 
 create a virtualenv for all the dependencies: ```mkvirtualenv <my_virtualenv> && workon <my_virtualenv>```
 
