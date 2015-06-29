@@ -3,7 +3,11 @@
 
 **Install Celery Beat**
 
-```sudo pip install Celery```
+```sudo pip install celery```
+
+**Install RAbbitMQ broker**
+
+```sudo apt-get install rabbitmq-server```
 
 **Create a celeryconfig.py**
 
