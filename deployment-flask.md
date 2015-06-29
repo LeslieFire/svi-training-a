@@ -8,8 +8,8 @@
 
 ###Getting inside the terminal
 for ubuntu virtual instance:
-* To get inside the instance, you can use the public ip: ```ssh -i name_of_key_pair.pem ubuntu@public_ip
-* or you can use the public dns: ```ssh -i name_of_key_pair.pem ubuntu@public_dns
+* To get inside the instance, you can use the public ip: ```ssh -i name_of_key_pair.pem ubuntu@public_ip```
+* or you can use the public dns: ```ssh -i name_of_key_pair.pem ubuntu@public_dns```
 
 To transfer files inside, use: ```scp -i name_of_key_pair.pem samplefile.txt ubuntu@public_ip:<path within instance>```
 
