@@ -34,9 +34,9 @@ The default when calling ```psql``` is the current user as the postgres user acc
 
 1. create a superuser that has the same name as your current ubuntu user: ```sudo -u postgres createuser --superuser $USER```
 2. access psql: ```sudo -u postgres psql```
-3. inside psql, to change password of current user: ```\password $USER```
+3. inside psql, to change password of current user: ```\password <the name of the the user>```
 4. to quit psql ```\q```
-5. outside psql, to create the db: ``` sudo -u postgres createdb $USER```
+5. outside psql, to create the db: ``` sudo -u $USER createdb $USER```
 
 Connecting to your own database should be as easy as ```psql``` now.
 * creating other db will now be like: ``` create database amarokdb;```
