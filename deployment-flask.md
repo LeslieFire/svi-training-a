@@ -74,7 +74,7 @@ be careful to change all the paths affected by the change in directory.
 
 create a virtualenv for all the dependencies: ```mkvirtualenv <my_virtualenv> && workon <my_virtualenv>```
 
-populate virtualenv with dependencies: ```pip freeze -r requirements.txt```
+populate virtualenv with dependencies: ```pip install -r requirements.txt```
 
 Check if everything is running by running the tests again (if ever you created a few).
 
