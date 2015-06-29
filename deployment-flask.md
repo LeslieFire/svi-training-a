@@ -63,7 +63,9 @@ Install virtualenv (for easy dependency management): ```sudo pip install virtual
 
 Install virtualenvwrapper (for easier dependency management): ```sudo pip install virtualenvwrapper```
 
-Install python-dev (to make **psycopg2** work which is then used by **sqlalchemy**): ```sudo apt-get install psycopg2``` and ```sudo apt-get install libpq-dev```
+Install python-dev (needed by psycopg2): ```sudo apt-get install python-dev```
+
+Install python-dev (to make **psycopg2** work which is then used by **sqlalchemy**): ```sudo apt-get install libpq-dev``` and ```sudo pip install psycopg2``` 
 
 ###Transferring your local app to AWS Instance
 be careful to change all the paths affected by the change in directory.
