@@ -23,7 +23,7 @@ CELERY_RESULT_BACKEND = 'db+postgresql://localhost/<db for messages. Create this
 from celery import Celery
 
 celery = Celery('tasks')
-celery.coming_from_project('celeryconfig')
+celery.config_from_project('celeryconfig')
 
 @celery.task
 def add(x, y):
