@@ -3,7 +3,7 @@
 ###AWS Instance
 1. First create an AWS instance.
 2. save the pem key to /home/your_username/.ssh/
-3. edit the inbout security rules under Security Groups dropdown to include HTTP with port range 80. This is so you can access the instance from the net.
+3. edit the inbound security rules under Security Groups dropdown to include HTTP with port range 80. This is so you can access the instance from the net.
 4. change the security of the key using: ```chmod 400 name_of_key_pair.pem```
 
 ###Getting inside the terminal
@@ -78,11 +78,6 @@ populate virtualenv with dependencies: ```pip install -r requirements.txt```
 
 Check if everything is running by running the tests again (if ever you created a few).
 
-###Running gunicorn
-In production, we won't be single threaded development servers. We will instead use a dedicated application server called **gunicorn**.
-
-For Flask: ```gunicorn run:app``` the word run being the name of wsgi script (run.py).
-
 ###Running nginx
 Installing nginx: ```sudo apt-get install nginx```
 
@@ -111,7 +106,50 @@ Restart nginx to start the new changes with either method:
 * ```sudo /etc/init.d/nginx restart```
 * ```sudo service nginx restart```
 
+###Running gunicorn
+In production, we won't be single threaded development servers. We will instead use a dedicated application server called **gunicorn**.
+
+For Flask: ```gunicorn run:app``` the word run being the name of wsgi script (run.py).
+
+###Using Supervisor to daemon tasks
+We will be using Supervisor to automate processes and running on the backgroun.
+
+To install Supervisor: ```sudo apt-get install supervisor```
+
+to create a configuration file: ``` sudo nano /etc/supervisor/conf.d/<name_of_project>.conf```
+
+Include the commands that are supposed to be ran inside the conf file:
+```
+[program:flask_project]
+command = gunicorn run:app -b localhost:8000                                          ; Command to start app.
+stdout_logfile = /home/ubuntu/nodes_and_edges_api_deploy/logs/gunicorn_supervisor.log ; Where to write log. messages
+directory = /home/ubuntu/nodes_and_edges_api_deploy                                   ; On what folder should the. app be ran.
+user = ubuntu                                                                         ; User to run as.
+
+[program:celery]
+command = celery -A scrape.tasks worker --loglevel=warning --beat --workdir=../
+stdout_logfile = /home/ubuntu/nodes_and_edges_api_deploy/logs/celery_supervisor.log
+directory = /home/ubuntu/nodes_and_edges_api_deploy/scrape
+user = ubuntu
+```
+
+To check if the config have changed: ```sudo supervisorctl reread```
+to run the update of the project (and then running them): ```sudo suprvisorctl update```
+
+You can also check the status of your app or start, stop and restart using supervisor:
+```
+$ sudo supervisorctl status hello                       
+hello                            RUNNING    pid 18020, uptime 0:00:50
+$ sudo supervisorctl stop hello  
+hello: stopped
+$ sudo supervisorctl start hello                        
+hello: started
+$ sudo supervisorctl restart hello 
+hello: stopped
+hello: started
+```
+
 #TO BE ADDED SOON..
-* run gunicorn as daemon
-* create an upstart script for gunicorn
-* use supervisord
+* create a bash script for gunicorn
+* ~~use supervisor~~
+* using supervisor with virtualenvs
