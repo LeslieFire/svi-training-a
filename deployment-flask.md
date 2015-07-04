@@ -184,6 +184,6 @@ hello: started
 ```
 
 #TO BE ADDED SOON..
-* create a bash script for gunicorn
+* ~~create a bash script for gunicorn~~
 * ~~use supervisor~~
-* using supervisor with virtualenvs
+* ~~using supervisor with virtualenvs~~
