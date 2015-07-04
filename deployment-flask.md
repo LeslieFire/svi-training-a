@@ -63,6 +63,13 @@ Install virtualenv (for easy dependency management): ```sudo pip install virtual
 
 Install virtualenvwrapper (for easier dependency management): ```sudo pip install virtualenvwrapper```
 
+To make virtualenvwrapper work, place the following lines at ~/.bashrc:
+```
+export PATH=/usr/local/bin:$PATH
+source /usr/local/bin/virtualenvwrapper.sh
+```
+Then reload ~/.bashrc: ```. ~/.bashrc```
+
 Install python-dev (needed by psycopg2): ```sudo apt-get install python-dev```
 
 Install python-dev (to make **psycopg2** work which is then used by **sqlalchemy**): ```sudo apt-get install libpq-dev``` and ```sudo pip install psycopg2``` 
@@ -111,7 +118,40 @@ In production, we won't be single threaded development servers. We will instead 
 
 For Flask: ```gunicorn run:app``` the word run being the name of wsgi script (run.py).
 
-###Using Supervisor to daemon tasks
+A better way to run gunicorn is from bash script. That way it can easily be run by Supervsior:
+
+
+create a text file: ```nano gunicorn_start```
+```
+#!/bin/bash
+
+NAME="gunicorn_nae"                                                                     # name of the application
+FLASKDIR="path/to/app                                                                   # flask project directory
+USER=antonio                                                                            # the user to run as
+GROUP=antonio                                                                           # the group to run as
+NUM_WORKERS=3                                                                           # how many worker processes should Gunicorn spawn
+FLASK_WSGI_MODULE=run                                                                   # WSGI module name
+
+echo "Starting $NAME as `whoami`"
+
+# Activate the virtual environment
+# Do not use virtualenvwrapper inside here. It will keep on looking for\
+# the virtualenv folder at main root folder of linux and not inside /home.
+source /home/antonio/.virtualenvs/nodes_and_edges_5/bin/activate
+
+# Start the Green Unicorn
+# Programs meant to be run under supervisor should not daemonize themselves (do not use --daemon)
+cd $FLASKDIR
+
+gunicorn ${FLASK_WSGI_MODULE}:app \
+    --name $NAME \
+    --workers $NUM_WORKERS \
+    --log-level=debug \
+    --log-file=-
+```
+test if its working by running: ```./gunicorn_start```
+
+###Using Supervisor to daemonize tasks
 We will be using Supervisor to automate processes and running on the backgroun.
 
 To install Supervisor: ```sudo apt-get install supervisor```
@@ -120,17 +160,11 @@ to create a configuration file: ``` sudo nano /etc/supervisor/conf.d/<name_of_pr
 
 Include the commands that are supposed to be ran inside the conf file:
 ```
-[program:flask_project]
-command = gunicorn run:app -b localhost:8000                                          ; Command to start app.
-stdout_logfile = /home/ubuntu/nodes_and_edges_api_deploy/logs/gunicorn_supervisor.log ; Where to write log. messages
-directory = /home/ubuntu/nodes_and_edges_api_deploy                                   ; On what folder should the. app be ran.
+[program:gunicorn]
+command = /path/to/app/scripts/gunicorn_start                                         ; Command to start app.
+stdout_logfile = /path/to/app/logs/gunicorn_supervisor.log                            ; Where to write log. messages
+stderr_redirect = true                                                                ; To also log the errors
 user = ubuntu                                                                         ; User to run as.
-
-[program:celery]
-command = celery -A scrape.tasks worker --loglevel=warning --beat --workdir=../
-stdout_logfile = /home/ubuntu/nodes_and_edges_api_deploy/logs/celery_supervisor.log
-directory = /home/ubuntu/nodes_and_edges_api_deploy/scrape
-user = ubuntu
 ```
 
 To check if the config have changed: ```sudo supervisorctl reread```
