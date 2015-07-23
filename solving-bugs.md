@@ -8,10 +8,14 @@
 While running endpoints ```sqlalchemy.orm.exc.DetachedInstanceError: Instance <LinkedInAccount at 0x7fa6e6f4ded0> is not bound to a Session; attribute refresh operation cannot proceed```: **include expire_on_commit=False on the backend functions.**
 
 ```no module named <any>```: **Normally this is caused when the virtualenv for the project was not activated. The command `python setup.py develop` initialized PYTHONPATH within the virtualenv and not on your local.**
-i
+
 On using HTTPBasicAuth for flask: Make sure the authentication wrapper is below the route wrapper else authentication will not work.
+
 
 When tox can't find dependencies even though you've installed them:
 * http://stackoverflow.com/questions/16061514/pylint-pylint-unable-to-import-flask-ext-wtf
 * or delete ```rm -rf .tox/```. Tox will rebuild this folder if its not there.
 
+
+If dependencies can't be found on running scripts:
+* try running ```python setup.py develop```
