@@ -39,7 +39,7 @@ The default when calling ```psql``` is the current user as the postgres user acc
 5. outside psql, to create the db: ``` sudo -u $USER createdb $USER```
 
 Connecting to your own database should be as easy as ```psql``` now.
-* creating other db will now be like: ``` create database amarokdb;```
+* creating other db will now be like: ``` createdb amarokdb;```
 
 To access gain access on a local database without it asking for username and password:
 
