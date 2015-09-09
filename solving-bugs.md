@@ -21,3 +21,5 @@
 * SQLAlchemy/psycopg2 ```Cant adapt type error```: You must have inserted an object or something unexpected to an SQLAlchemy query. Check the types of the data you pass to the query. Queries normally can't accept objects.
 
 * SQLAlchemy ```Timeout Error```: Some part of the code is creating too many sessions at the same time. Find and fix it.
+
+* When adding new folders or files, make sure to reinstall the app in the virtual env or else the flask environment will have a difficult time looking for folders and files
