@@ -300,4 +300,25 @@ Commands to on running supervisor:
 - to check everything: ```sudo supervisorctl start all```
 
 ###Setting up the Linkedin Accounts that will be used.
-To get the info that we need on accessing Linkedin in, we would have to be logged in and for us to be logged in, we need authenticated users first. I have already created two.
+To get the info that we need on accessing Linkedin in, we would have to be logged in and for us to be logged in, we need authenticated users first. I already created two fake accounts: ```user:christopherlaolim@gmail.com, password: donmariano``` and ```user:jennyongyu@gmail.com, password: mercurydrug```.
+
+To authenticate them, replace the argument ```session_key``` and ```session_password``` inside ```/nodes-and-edges/utils/login_confirmer.py``` (I know, sorry, its hard coded) and then go inside the utils folder and run: ```python login_confirmer.py```
+
+If it asked to return the authenticaton code, then access gmail using the username and password and then get copy paste the auth code you got there into the terminal.
+
+The goal here is to get the prompt ```got through security``` which means you can now use those accounts for scraping.
+
+For the API to include those accounts: call ```POST <url of instance>/api/0.0/li_accounts```
+(it will be a lot easier if you install Postman, an program for api testing)
+
+and on the body add the following dat:
+- email: email of account
+- password: password of account
+- security_check: True (set this to True because we've already ran the login_confirmer on them)
+
+The accounts can now be used for scraping!
+
+###Initial population of the DB.
+We would need initial companies for scraping and I've already created a script for that. On the nodes-and-edges root, just run ```python ./utils/insert_csv_to_db.py```
+
+This will add the list of companies in ```/nodes-and-edges/utils/insert_csv_to_db.py``` inside the db. Now all these companies will automatically be scheduled for scraping by the API.
