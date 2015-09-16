@@ -1,12 +1,12 @@
 #Nodes and Edges App Deployment
 
-###1. AWS Instance
+###AWS Instance
 1. First create an AWS instance.
 2. save the pem key to /home/your_username/.ssh/
 3. edit the inbound security rules under Security Groups dropdown to include HTTP with port range 80. This is so you can access the instance from the net.
 4. change the security of the key using: ```chmod 400 name_of_key_pair.pem```
 
-###2. Getting inside the terminal
+###Getting inside the terminal
 for ubuntu virtual instance:
 * To get inside the instance, you can use the public ip: ```ssh -i name_of_key_pair.pem ubuntu@public_ip```
 * or you can use the public dns: ```ssh -i name_of_key_pair.pem ubuntu@public_dns```
@@ -15,11 +15,11 @@ To transfer files inside, use: ```scp -i name_of_key_pair.pem samplefile.txt ubu
 
 To transfer folders, replace **samplefile.txt** with ```-r path/to/folder``` -r for recursive transfer.
 
-###3. Updating the system instance
+###Updating the system instance
 Inside the instance, make sure to run commands below so that everything gets updated before we begin our work:
 * ```sudo apt-get update && sudo apt-get upgrade```
 
-###4. Install/Setup PostgreSQL
+###Install/Setup PostgreSQL
 link guide: [https://help.ubuntu.com/community/PostgreSQL](https://help.ubuntu.com/community/PostgreSQL)
 
 Install postgres: ``` sudo apt-get install postgresql postgresql-contrib```
@@ -74,7 +74,7 @@ Install python-dev (needed by psycopg2): ```sudo apt-get install python-dev```
 
 Install python-dev (to make **psycopg2** work which is then used by **sqlalchemy**): ```sudo apt-get install libpq-dev``` and ```sudo pip install psycopg2``` 
 
-###5. Transferring the Nodes and Edges repo from github to the instance.
+###Transferring the Nodes and Edges repo from github to the instance.
 
 create a virtualenv for all the dependencies: ```mkvirtualenv nae_1 && workon nae_1```
 
@@ -88,7 +88,7 @@ populate virtualenv with dependencies: ```pip install -r requirements.txt```
 
 Check if everything is running by running the tests again (if ever you created a few).
 
-###6. Setting up NGINX
+###Setting up NGINX
 Installing nginx: ```sudo apt-get install nginx```
 
 Delete the default config and create a new config for the app that will listen to port 80 (the HTTP port that we set while creating the AWS instance) and will then pass it to port 8000 (the default port of gunicorn):
@@ -117,7 +117,7 @@ Restart nginx to start the new changes with either method:
 * ```sudo /etc/init.d/nginx restart```
 * ```sudo service nginx restart```
 
-###7. Creating a Gunicorn Script for Supervisor
+###Creating a Gunicorn Script for Supervisor
 In production, we won't be running a single threaded development servers. We will instead use a dedicated application server called **gunicorn**.
 
 A better way to run gunicorn is from bash script. That way it can easily be run by Supervsior:
@@ -158,7 +158,7 @@ gunicorn ${FLASK_WSGI_MODULE}:app \
 
 test if its working by running: ```./local_gunicorn_start```
 
-###8. Creating Celery Run Script for Supervisor
+###Creating Celery Run Script for Supervisor
 
 Install the preferred message broker ```sudo apt-get install rabbitmq-server```
 
@@ -186,7 +186,7 @@ cd $FLASKDIR
 
 celery -A scrape.tasks worker --loglevel=info --beat -n worker.%h
 ```
-###9. Setting up S3
+###Setting up S3
 
 1. Create a bucket on your S3 account.
 2. on the permissions, add yourself as grantee and then check all the permission boxes
@@ -208,7 +208,7 @@ celery -A scrape.tasks worker --loglevel=info --beat -n worker.%h
 ```
 This is to allow the public to access the image url's from s3
 
-###10. Configure local_config.ini
+###Configure local_config.ini
 add a local_config file in the root folder ```~/nodes-and-edges/```: ```nano local_config.ini```
 ```
 [env]
@@ -247,7 +247,7 @@ engine_args_literal = {
 ```
 These includes all the urls, names, and credentials needed for the app to run.
 
-###11. Setup Nodes and Edges Flask App
+###Setup Nodes and Edges Flask App
 Make sure you are at ```/nodes-and-edges/``` root folder and youre inside the virtualenv ```nae_1```
 
 1. Create db: ```createdb nodes-and-edges```
@@ -258,14 +258,14 @@ if you want to test it on your local: ```python run.py --develop```
 
 if you want to create migration on db upgrads: ```alembic -c backend/alembic.ini revision --autogenerate -m "create user table"```
 
-###12. Running Tests
+###Running Tests
 1. install tox ```pip install tox```
 2. Create databases for the tests: ```createdb flask_api_template``` ```createdb flask_api_template_skeleton```
 3. to run tox, just type: ```tox``` at the terminal
 
 We currently have 3 tests: pylint, pep8, and tests. To run these indivually: ```tox -e pylint```, ```tox -e pep8```, or ```tox -e tests```
 
-###13. Using Supervisor to daemonize tasks
+###Using Supervisor to daemonize tasks
 We will be using Supervisor to automate processes and running on the background.
 
 To install Supervisor: ```sudo apt-get install supervisor```
@@ -299,7 +299,7 @@ Commands to on running supervisor:
 - to start: ```sudo supervisorctl start gunicorn```
 - to check everything: ```sudo supervisorctl start all```
 
-###14. Setting up the Linkedin Accounts that will be used.
+###Setting up the Linkedin Accounts that will be used.
 To get the info that we need on accessing Linkedin in, we would have to be logged in and for us to be logged in, we need authenticated users first. I already created two fake accounts: ```user:christopherlaolim@gmail.com, password: donmariano``` and ```user:jennyongyu@gmail.com, password: mercurydrug```.
 
 To authenticate them, replace the argument ```session_key``` and ```session_password``` inside ```/nodes-and-edges/utils/login_confirmer.py``` (I know, sorry, its hard coded) and then go inside the utils folder and run: ```python login_confirmer.py```
@@ -318,11 +318,7 @@ and on the body add the following dat:
 
 The accounts can now be used for scraping!
 
-###15. Initial population of the DB.
+###Initial population of the DB.
 We would need initial companies for scraping and I've already created a script for that. On the nodes-and-edges root, just run ```python ./utils/insert_csv_to_db.py```
 
 This will add the list of companies in ```/nodes-and-edges/utils/insert_csv_to_db.py``` inside the db. Now all these companies will automatically be scheduled for scraping by the API.
-
-
-###16. WERE DONE!
-We are now done with the initial set up of the app. If all of the steps were followed, ideally, everything will run perfectly.
